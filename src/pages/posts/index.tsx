@@ -1,6 +1,6 @@
 import { GetStaticProps } from "next";
 
-interface IPost {
+export interface IPost {
   id: string;
   title: string;
 }
@@ -21,6 +21,7 @@ export default function Posts({ posts }: IPostsProps) {
     </>
   );
 }
+
 export const getStaticProps: GetStaticProps<IPostsProps> = async () => {
   const response = await fetch("http://localhost:3333/posts");
   const posts = await response.json();
