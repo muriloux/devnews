@@ -24,7 +24,7 @@ export default function Home({ posts }: IHomeProps) {
 
   return (
     <>
-      <SEO />
+      <SEO title="Home" excludeTitleSuffix />
       <h1>Posts</h1>
       <ul>
         {posts.map((post: IPost) => (
