@@ -1,9 +1,16 @@
 import { GetStaticProps } from "next";
+import Link from "next/link";
 import { SEO } from "../../components/SEO";
+import { prisma } from "../../libs/prisma";
+import safeJsonStringify from "safe-json-stringify";
+import styles from "./posts.module.scss";
+import { formatDistance } from "date-fns";
 
 export interface IPost {
   id: string;
   title: string;
+  content: string;
+  created_at: string;
 }
 
 interface IPostsProps {
@@ -14,24 +21,40 @@ export default function Posts({ posts }: IPostsProps) {
   return (
     <>
       <SEO title="Posts" />
-      <h1>Post List</h1>
-      <ul>
+
+      <main className={styles.container}>
         {posts.map((post) => (
-          <li key={post.id}>{post.title}</li>
+          <div key={post.id} className={styles.post}>
+            <Link href="#">
+              <a>
+                <time>
+                  {formatDistance(Date.parse(post.created_at), Date.now(), {
+                    addSuffix: true,
+                  })}
+                </time>
+                <br />
+                <strong> {post.title}</strong>
+                <p> {post.content} </p>
+              </a>
+            </Link>
+          </div>
         ))}
-      </ul>
+      </main>
     </>
   );
 }
 
 export const getStaticProps: GetStaticProps<IPostsProps> = async () => {
-  const response = await fetch("http://localhost:3333/posts");
+  const response = await fetch("http://localhost:3000/api/posts");
   const posts = await response.json();
+  // const rawData = await prisma.post.findMany();
+  // const stringifiedData = safeJsonStringify(rawData);
+  // const posts = JSON.parse(stringifiedData);
 
   return {
     props: {
       posts,
     },
-    revalidate: 5,
+    revalidate: 60 * 60 * 12,
   };
 };
