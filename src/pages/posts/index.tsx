@@ -10,6 +10,7 @@ export interface IPost {
   id: string;
   title: string;
   content: string;
+  excerpt: string;
   created_at: string;
 }
 
@@ -34,7 +35,7 @@ export default function Posts({ posts }: IPostsProps) {
                 </time>
                 <br />
                 <strong> {post.title}</strong>
-                <p> {post.content} </p>
+                <p> {post.excerpt} </p>
               </a>
             </Link>
           </div>
@@ -45,7 +46,7 @@ export default function Posts({ posts }: IPostsProps) {
 }
 
 export const getStaticProps: GetStaticProps<IPostsProps> = async () => {
-  const response = await fetch("http://localhost:3000/api/posts");
+  const response = await fetch(`${process.env.API_URL}/posts`);
   const posts = await response.json();
   // const rawData = await prisma.post.findMany();
   // const stringifiedData = safeJsonStringify(rawData);
