@@ -1,20 +1,21 @@
 import { GetStaticProps } from "next";
 import Link from "next/link";
-import { SEO } from "../../components/SEO";
-import { prisma } from "../../libs/prisma";
-import safeJsonStringify from "safe-json-stringify";
-import styles from "./posts.module.scss";
 import { formatDistance } from "date-fns";
+
+import { SEO } from "../../components/SEO";
+import styles from "./posts.module.scss";
 
 export interface IPost {
   id: string;
   title: string;
+  slug: string;
   content: string;
   excerpt: string;
   created_at: string;
+  updated_at: string;
 }
 
-interface IPostsProps {
+export interface IPostsProps {
   posts: IPost[];
 }
 
@@ -26,7 +27,7 @@ export default function Posts({ posts }: IPostsProps) {
       <main className={styles.container}>
         {posts.map((post) => (
           <div key={post.id} className={styles.post}>
-            <Link href="#">
+            <Link href={`/posts/${post.slug}`}>
               <a>
                 <time>
                   {formatDistance(Date.parse(post.created_at), Date.now(), {

@@ -1,52 +1,86 @@
 import { PrismaClient } from "@prisma/client";
 import createExcerptService from "../../src/services/createExcerptService";
+import createSlugService from "../../src/services/createSlugService";
 
-const content = [
-  "Aute laboris aliquip adipisicing magna reprehenderit nostrud consectetur nulla sit. Non sint ad irure veniam excepteur officia consectetur. Aliquip esse esse reprehenderit est veniam enim. Voluptate veniam qui elit irure ut sint tempor esse esse.",
-  "Deserunt sunt commodo proident dolor duis labore. Magna velit voluptate sit consequat duis laboris officia reprehenderit voluptate dolore et et. Cupidatat quis dolore velit non ullamco laboris qui aute ad. Aliqua ea cillum tempor officia et excepteur ex commodo tempor sit velit cillum aliquip pariatur. Adipisicing tempor enim voluptate esse ullamco duis. Dolore nostrud pariatur ex irure exercitation enim adipisicing reprehenderit consectetur adipisicing aliqua cupidatat. Mollit cupidatat velit consequat cupidatat nisi eiusmod ut enim est elit consectetur esse quis voluptate.",
-  "Proident duis excepteur aliquip proident proident qui proident. Ullamco labore amet amet consectetur ipsum ullamco aute aute eiusmod. Magna id consectetur elit id nostrud officia est qui aliqua veniam. Cillum enim sunt adipisicing laborum magna eiusmod consectetur laborum irure officia laborum enim. Aliqua nisi esse exercitation duis. Adipisicing id reprehenderit adipisicing non do officia culpa.",
-  "Id veniam fugiat incididunt sint mollit elit magna Lorem culpa ut. Occaecat eu ullamco exercitation enim anim mollit labore anim duis laboris excepteur duis. Excepteur id fugiat et pariatur exercitation eiusmod laborum ut id labore cupidatat in labore pariatur. Ex et ea velit dolore tempor sint magna do et et aliquip adipisicing commodo cupidatat. Deserunt reprehenderit tempor ea eiusmod fugiat laborum nulla reprehenderit qui ad.",
-  "Dolor irure duis minim reprehenderit consequat nulla. Eiusmod dolore occaecat sint anim et aute duis dolore qui in adipisicing. Eu fugiat reprehenderit enim nisi esse eu non dolor occaecat officia. Do ex non dolor fugiat. Laborum anim id ea id. Reprehenderit deserunt consequat exercitation qui elit cillum ut veniam adipisicing qui anim do. Culpa enim minim elit est.",
-];
+class Post {
+  title: string;
+  content: string;
+  excerpt: string;
+  slug: string;
+
+  constructor(title: string, content: string) {
+    this.title = title;
+    this.content = content;
+    this.excerpt = createExcerptService(this.content);
+    this.slug = createSlugService(this.title);
+  }
+}
+
+const post0 = new Post(
+  "Typescript is the future!",
+  "Aute laboris aliquip adipisicing magna reprehenderit nostrud consectetur nulla sit. Non sint ad irure veniam excepteur officia consectetur. Aliquip esse esse reprehenderit est veniam enim. Voluptate veniam qui elit irure ut sint tempor esse esse."
+);
+const post1 = new Post(
+  "Brazilian election depends on a computer with Linux!",
+  "Proident duis excepteur aliquip proident proident qui proident. Ullamco labore amet amet consectetur ipsum ullamco aute aute eiusmod. Magna id consectetur elit id nostrud officia est qui aliqua veniam. Cillum enim sunt adipisicing laborum magna eiusmod consectetur laborum irure officia laborum enim. Aliqua nisi esse exercitation duis. Adipisicing id reprehenderit adipisicing non do officia culpa."
+);
+const post2 = new Post(
+  "Elon Musk buys twitter!",
+  "Anim incididunt ad ullamco adipisicing. Aliqua sint nisi dolor reprehenderit eu minim. Voluptate quis laboris quis nisi elit minim elit non deserunt sit fugiat. Minim sint velit esse exercitation tempor eiusmod est. Est est laborum in voluptate nostrud cupidatat veniam labore reprehenderit enim. Esse qui incididunt sunt sunt mollit."
+);
+const post3 = new Post(
+  "Github Copilot could be stealing your code?",
+  "Magna sunt non reprehenderit et irure. Eu incididunt veniam et proident anim. Culpa ad incididunt et Lorem."
+);
+const post4 = new Post(
+  "Is Linux really safe?",
+  "Ex eu anim dolore enim. Exercitation aute excepteur quis tempor occaecat laborum cillum id et. Exercitation adipisicing non pariatur aliqua adipisicing Lorem ut quis. Incididunt velit quis veniam incididunt consequat ipsum nulla tempor exercitation voluptate et veniam consequat. Aliqua id magna occaecat officia."
+);
+
 const prisma = new PrismaClient();
 async function main() {
-  const post0 = await prisma.post.create({
+  const p0 = await prisma.post.create({
     data: {
-      title: "Typescript is the future!",
-      content: content[0],
-      excerpt: createExcerptService(content[0]),
+      title: post0.title,
+      content: post0.content,
+      excerpt: post0.excerpt,
+      slug: post0.slug,
     },
   });
-  const post1 = await prisma.post.create({
+  const p1 = await prisma.post.create({
     data: {
-      title: "Brazilian election depends on a computer with Linux!",
-      content: content[1],
-      excerpt: createExcerptService(content[1]),
+      title: post1.title,
+      content: post1.content,
+      excerpt: post1.excerpt,
+      slug: post1.slug,
     },
   });
-  const post2 = await prisma.post.create({
+  const p2 = await prisma.post.create({
     data: {
-      title: "Elon Musk buys twitter!",
-      content: content[2],
-      excerpt: createExcerptService(content[2]),
+      title: post2.title,
+      content: post2.content,
+      excerpt: post2.excerpt,
+      slug: post2.slug,
     },
   });
-  const post3 = await prisma.post.create({
+  const p3 = await prisma.post.create({
     data: {
-      title: "Github Copilot could be stealing your code?",
-      content: content[3],
-      excerpt: createExcerptService(content[3]),
+      title: post3.title,
+      content: post3.content,
+      excerpt: post3.excerpt,
+      slug: post3.slug,
     },
   });
-  const post4 = await prisma.post.create({
+  const p4 = await prisma.post.create({
     data: {
-      title: "Is Linux really safe?",
-      content: content[4],
-      excerpt: createExcerptService(content[4]),
+      title: post4.title,
+      content: post4.content,
+      excerpt: post4.excerpt,
+      slug: post4.slug,
     },
   });
 
-  console.log({ post0, post1, post2, post3, post4 });
+  console.log({ p0, p1, p2, p3, p4 });
 }
 main()
   .then(async () => {
